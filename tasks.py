@@ -1,7 +1,17 @@
 from celery import Celery
+import subprocess
 
-app = Celery('tasks', broker='amqp://', backend='amqp://')
 
-@app.tasks
-def mname():
-    pass
+app = Celery('tasks', backend='amqp://', broker='amqp://')
+
+@app.task
+def reverse(string):
+	return string[::-1]
+
+@app.task
+def add(x,y):
+	return x+y
+
+@app.task
+def run_blast():
+	pass
