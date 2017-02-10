@@ -1,0 +1,6 @@
+venv
+bin
+var
+lib
+__pycache__
+.sqlite
