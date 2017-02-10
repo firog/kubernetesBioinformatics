@@ -1,4 +1,5 @@
 from flask import render_template
+from ..models import User
 from . import pages
 
 @pages.route('/')
@@ -7,6 +8,7 @@ def index():
 
 @pages.route('/user/<username>')
 def user(username):
-	return render_template('pages/user.html', username=username)
+	user = User.query.filter_by(username=username).first_or_40()
+	return render_template('pages/user.html', user=user)
 
 
