@@ -8,7 +8,5 @@ def index():
 
 @pages.route('/user/<username>')
 def user(username):
-	user = User.query.filter_by(username=username).first_or_40()
+	user = User.query.filter_by(username=username).first_or_404()
 	return render_template('pages/user.html', user=user)
-
-

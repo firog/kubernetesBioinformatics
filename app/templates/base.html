@@ -2,6 +2,11 @@
 
 {% block title %}Pages{% endblock %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+{% endblock %}
+
 {% block navbar %}
 <div class="navbar navbar-default" role="navigation">
     <div class="container">
@@ -18,15 +23,21 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('pages.index') }}">Home</a></li>
                 {% if (current_user.is_authenticated) %}
-                <li><a href="{{ url_for('pages.user', username=current_user.username)}}">Profile</a></li>
+                <li><a href="{{ url_for('pages.user', username=current_user.username) }}">Profile</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              {% if not (current_user.is_authenticated) %}
-              <li><a href="{{url_for('auth.login') }}">Login</a></li>
-              {% else %}
-              <li><a href="{{url_for('auth.logout') }}">Logout</a></li>
-              {% endif %}
+                {% if not (current_user.is_authenticated) %}
+                <li><a href="{{ url_for('auth.login') }}">Presenter Login</a></li>
+                {% else %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ current_user.gravatar(size=18) }}"> {{ current_user.username }} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 </div>
@@ -34,12 +45,13 @@
 
 {% block content %}
 <div class="container">
-  {% for message in get_flashed_messages() %}
-  <div class="alert alert-warning">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{ message }}
-  </div>
-  {% endfor %}
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
     {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
