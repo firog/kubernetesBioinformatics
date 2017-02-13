@@ -17,6 +17,8 @@ class User(UserMixin, db.Model):
 	bio = db.Column(db.Text())
 	member_sinze = db.Column(db.DateTime(), default=datetime.utcnow)
 	avatar_hash = db.Column(db.String(32))
+	fThread = db.relationship('ForumTopic', lazy='dynamic', backref='author')
+
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
@@ -46,3 +48,11 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+class ForumTopic(db.Model):
+	__tablename__ = 'fThread'
+	id = db.Column(db.Integer, primary_key=True)
+	topicTitle = db.Column(db.String(128), nullable=False)
+	content = db.Column(db.String(512), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	date = db.Column(db.DateTime(), default=datetime.utcnow)
