@@ -1,0 +1,7 @@
+<div class="post-header">
+  <h2>{{ posts.title }}</h2>
+  <h3>{{ posts.content }}</h3>
+  <p>
+    Posted by <a href="{{ url_for('pages.user', username=posts.author.username) }}">{{ posts.author.username }}</a>
+  </p>
+</div>

@@ -4,3 +4,4 @@ var
 lib
 __pycache__
 .sqlite
+data-dev.sqlite
