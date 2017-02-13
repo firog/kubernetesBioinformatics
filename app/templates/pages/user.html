@@ -3,6 +3,9 @@
 {% block page_content %}
 <div class="page-header user-profile">
   <div class="user-avatar"><img src="{{ user.gravatar(128) }}"></div>
+  {% if current_user == user %}<a class="btn btn-default pull-right" href="{{ url_for('pages.profile') }}">Edit Profile</a>{% endif %}
+  {{ user.username }}
+  {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
   <h1>{{ user.username }}</h1>
 </div>
 {% endblock %}
