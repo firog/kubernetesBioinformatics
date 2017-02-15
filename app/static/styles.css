@@ -8,32 +8,32 @@
   margin-bottom: 16px;
 }
 
-ul.page-list {
+ul.post-list {
   list-style-type: none;
   padding: 0px;
 }
 
-li.page {
+li.post {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
   padding: 10px;
 }
 
-li.page:hover {
+li.post:hover {
   background-color: #f8f8f8;
 }
 
-.div.page-header h2 {
+.div.post-header h2 {
   font-size: 200%;
   margin: 5px 0px 15px 0px;
 }
 
-.div.page-header h3 {
+.div.post-header h3 {
   font-size: 115%;
   margin: 0px 0px 10px 0px;
 }
 
-.div.page-header p {
+.div.post-header p {
   font-size: 90%;
   font-style: italic;
   margin: 20px 0px 0px 0px;

@@ -1,20 +1,21 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_required, current_user
+from werkzeug import secure_filename
 from .. import db
 from ..models import User, Post
 from . import pages
-from .forms import ProfileForm, CreateThreadForm
+from .forms import ProfileForm, PostForm
 
 @pages.route('/')
 def index():
 	post_list = Post.query.order_by(Post.date.desc()).all()
-	return render_template('pages/index.html', post=post_list)
+	return render_template('pages/index.html', posts=post_list)
 
 @pages.route('/user/<username>')
 def user(username):
 	user = User.query.filter_by(username=username).first_or_404()
 	post_list = user.posts.order_by(Post.date.desc()).all()
-	return render_template('pages/user.html', user=user, post=post_list)
+	return render_template('pages/user.html', user=user, posts=post_list)
 
 @pages.route('/profile', methods=['GET','POST'])
 @login_required
@@ -36,7 +37,7 @@ def profile():
 @pages.route('/new', methods=['GET','POST'])
 @login_required
 def new_post():
-	form = CreateThreadForm()
+	form = PostForm()
 	if form.validate_on_submit():
 		post = Post(title=form.title.data, content=form.content.data, author=current_user)
 		db.session.add(post)
@@ -44,3 +45,16 @@ def new_post():
 		flash("Posted!")
 		return redirect(url_for('.index'))
 	return render_template('pages/edit_post.html', form=form)
+
+@pages.route('/upload')
+@login_required
+def upload():
+	return render_template('pages/upload.html')
+
+@pages.route('/uploader', methods=['GET', 'POST'])
+@login_required
+def upload_file():
+	if request.method == 'POST':
+		f = request.files['file']
+		f.save(secure_filename(f.filename))
+		return 'File uploaded. Job will execute when file has finished uploading.'
