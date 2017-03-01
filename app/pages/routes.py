@@ -1,6 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_required, current_user
-from werkzeug import secure_filename
 from .. import db
 from ..models import User, Post
 from . import pages
@@ -46,15 +45,8 @@ def new_post():
 		return redirect(url_for('.index'))
 	return render_template('pages/edit_post.html', form=form)
 
-@pages.route('/upload')
-@login_required
-def upload():
-	return render_template('pages/upload.html')
 
-@pages.route('/uploader', methods=['GET', 'POST'])
-@login_required
-def upload_file():
-	if request.method == 'POST':
-		f = request.files['file']
-		f.save(secure_filename(f.filename))
-		return 'File uploaded. Job will execute when file has finished uploading.'
+@pages.route('/post/<int:id>')
+def post(id):
+	post = Post.query.get_or_404(id)
+	return render_template('pages/post.html', post=post)

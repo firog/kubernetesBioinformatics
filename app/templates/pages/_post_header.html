@@ -1,7 +1,8 @@
 <div class="post-header">
-  <h2>{{ post.title }}</h2>
+  <h2><a href="{{ url_for('pages.post', id=post.id) }}">{{ post.title }}</a></h2>
   <h3>{{ post.content }}</h3>
   <p>
     Posted by <a href="{{ url_for('pages.user', username=post.author.username) }}">{{ post.author.username }}</a>
+    on {{ moment(post.date, local=True).format('LL') }}
   </p>
 </div>
