@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from config import config
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask.ext.moment import Moment
+from flask_moment import Moment
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -34,7 +34,7 @@ def create_app(config_name):
 	from .tools import tools as tools_blueprint
 	app.register_blueprint(tools_blueprint, url_prefix='/tools')
 
-	from .api_1_0 import api as api_blueprint
-	app.register_blueprint(tools_blueprint, url_prefix='/api/1.0')
+	from .api_1_0 import api1 as api_blueprint
+	app.register_blueprint(api_blueprint, url_prefix='/api/1')
 
 	return app

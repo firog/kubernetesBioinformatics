@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
 from .. import db
 from ..models import User, Post
@@ -6,6 +6,7 @@ from . import pages
 from .forms import ProfileForm, PostForm
 
 @pages.route('/')
+@pages.route('/home')
 def index():
 	post_list = Post.query.order_by(Post.date.desc()).all()
 	return render_template('pages/index.html', posts=post_list)
@@ -15,6 +16,7 @@ def user(username):
 	user = User.query.filter_by(username=username).first_or_404()
 	post_list = user.posts.order_by(Post.date.desc()).all()
 	return render_template('pages/user.html', user=user, posts=post_list)
+
 
 @pages.route('/profile', methods=['GET','POST'])
 @login_required

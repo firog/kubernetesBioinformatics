@@ -2,7 +2,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import hashlib
-from flask import request
+from flask import request, url_for
 from flask_login import UserMixin
 from . import db, login_manager
 
@@ -44,6 +44,9 @@ class User(UserMixin, db.Model):
 			hash = self.avatar_hash or hashlib.md5(self.email.encode('utf-8')).hexdigest()
 		return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
 			url=url, hash=hash, size=size, default=default, rating=rating)
+
+	# def get_url(self):
+	# 	return url_for('api.')
 
 	# def get_api_token(self, expiration=300):
 	# 	s = Serializer(current_app.config['SECRET_KEY'], expiration)
