@@ -36,7 +36,7 @@ def profile():
 	return render_template('pages/profile.html', form=form)
 
 @pages.route('/new', methods=['GET','POST'])
-@login_required
+# @login_required
 def new_post():
 	form = PostForm()
 	if form.validate_on_submit():

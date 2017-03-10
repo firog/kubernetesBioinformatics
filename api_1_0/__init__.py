@@ -1,8 +1,11 @@
 from flask import Blueprint
 from flask_restplus import Api
-# from .post import nsPost
+
 api1 = Blueprint('api', __name__)
-# api = Api(title='Bioinf Toolbox', version=1.0, description='Handling job submissionsPost, posts and users.')
 api = Api(api1)
-# api.add_namespace(nsPost)
-# from . import routes
+
+from api_1_0.endpoints.post import nsPost
+from api_1_0.endpoints.user import nsUser
+
+api.add_namespace(nsPost)
+api.add_namespace(nsUser)

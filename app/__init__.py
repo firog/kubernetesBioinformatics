@@ -13,8 +13,11 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
 
+
 def create_app(config_name):
 	app = Flask(__name__)
+
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 	app.config.from_object(config[config_name])
 
 	bootstrap.init_app(app)
@@ -34,7 +37,7 @@ def create_app(config_name):
 	from .tools import tools as tools_blueprint
 	app.register_blueprint(tools_blueprint, url_prefix='/tools')
 
-	from .api_1_0 import api1 as api_blueprint
+	from api_1_0 import api1 as api_blueprint
 	app.register_blueprint(api_blueprint, url_prefix='/api/1')
 
 	return app

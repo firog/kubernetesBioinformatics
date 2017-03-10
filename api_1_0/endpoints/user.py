@@ -2,7 +2,7 @@ from flask import jsonify, request
 from flask_restplus import Namespace, Resource, fields
 from app.models import User
 from ..serializers import user
-from ..cuduser import create_user, delete_user
+from ..cuduser import create_user, delete_user, get_user, update_user
 from .. import api
 
 nsUser = Namespace('users', description='User related operations')
@@ -26,24 +26,29 @@ class UserList(Resource):
         create_user(data)
         return None, 201
 
-@nsUser.route('/<int:id>')
+@nsUser.route('/<string:username>')
 class UserController(Resource):
     @nsUser.marshal_list_with(user)
-    def get(self,id):
+    def get(self,username):
         """
-        Get a specific user by id
+        Get a specific user by username
         """
-        return User.query.get_or_404(id)
+        return get_user(username)
 
-    @api.response(204, 'User successfully deleted')
-    def delete(self,id):
+    @api.expect(user)
+    @api.response(204, 'User successfully updated')
+    def put(self, username):
         """
-        Delete a user by id
+        Update a users name and username by username
         """
-        delete_user(id)
+        data = request.json
+        update_user(username,data)
         return None, 204
 
-# @nsUser.route('/<string:id>')
-# @nsUser.marshal_with(user)
-# def get(self,name):
-#     return User.query.get_or_404(name)
+    @api.response(204, 'User successfully deleted')
+    def delete(self,username):
+        """
+        Delete a user by username
+        """
+        delete_user(username)
+        return None, 204
