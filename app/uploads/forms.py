@@ -4,3 +4,4 @@ from werkzeug.utils import secure_filename
 
 class UploadForm(Form):
     uploadFile = FileField(validators=[FileRequired()])
+    

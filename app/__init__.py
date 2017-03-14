@@ -4,6 +4,7 @@ from config import config
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_moment import Moment
+from celery import Celery
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -12,12 +13,10 @@ moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-
+celery = Celery(__name__, broker='redis://', backend='redis://')
 
 def create_app(config_name):
 	app = Flask(__name__)
-
-	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 	app.config.from_object(config[config_name])
 
 	bootstrap.init_app(app)

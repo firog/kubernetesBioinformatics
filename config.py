@@ -15,7 +15,8 @@ class Config:
 	APP_NAME = "Bioinf Toolbox"
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret3'
 	ALLOWED_EXTENSIONS = set(['fasta', 'fastq'])
-
+	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	UPLOAD_FOLDER = '/home/olof/courses/exjobb/projExjobb/scalableCloudCommunity/userUploads'
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = os.environ.get('SECRET_KEY') or 't0p s3cr3t'

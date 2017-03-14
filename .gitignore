@@ -3,5 +3,8 @@ bin
 var
 lib
 __pycache__
+__pycache__\
+userUploads
+userUploads\
 .sqlite
 data-dev.sqlite
