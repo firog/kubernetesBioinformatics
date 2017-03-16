@@ -18,11 +18,8 @@ class Config:
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	UPLOAD_FOLDER = '/home/olof/courses/exjobb/projExjobb/scalableCloudCommunity/userUploads'
 
-	# CELERY_BROKER_URL = 'redis://172.17.0.2:6379/0'
-	# CELERY_RESULT_BACKEND = 'redis://172.17.0.2:6379/0'
-
-	CELERY_BROKER_URL = 'redis://:devpassword@redis:6379/0'
-	CELERY_RESULT_BACKEND = 'redis://:devpassword@redis:6379/0'
+	CELERY_BROKER_URL = 'amqp://172.17.0.2:5672/'
+	CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 class DevelopmentConfig(Config):
     DEBUG = True
