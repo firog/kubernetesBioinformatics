@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from config import config
+from config import config, Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_moment import Moment
@@ -13,7 +13,7 @@ moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-celery = Celery(__name__, broker='redis://', backend='redis://')
+celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -23,6 +23,7 @@ def create_app(config_name):
 	db.init_app(app)
 	login_manager.init_app(app)
 	moment.init_app(app)
+	celery.conf.update(app.config)
 
 	from .pages import pages as pages_blueprint
 	app.register_blueprint(pages_blueprint)

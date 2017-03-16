@@ -19,9 +19,7 @@ def upload_file():
 		f = request.files['file']
 		filename = secure_filename(f.filename)
 		f.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-		flash('File uploaded, job will start when file has finished uploading.')
-		subprocess.call(['makeblastdb','-in',filename,'-dbtype','nucl','-out',filename + "first"])
-		subprocess.check_output(['blastn', '-db', filename+"first",'-query',filename+"first", '-evalue','1e-5','-num_threads','2'])
+		flash('File uploading.')
 		return render_template('pages/index.html')
 
 	# form = UploadForm()

@@ -1,3 +1,4 @@
+gunicorn==19.4.5
 amqp==2.1.4
 aniso8601==1.2.0
 appdirs==1.4.0
@@ -31,6 +32,7 @@ pyparsing==2.1.10
 python-dateutil==2.6.0
 pytz==2016.10
 rauth==0.7.3
+redis==2.10.5
 requests==2.13.0
 rsa==3.4.2
 six==1.10.0

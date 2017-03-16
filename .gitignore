@@ -8,3 +8,8 @@ userUploads
 userUploads\
 .sqlite
 data-dev.sqlite
+redis-stable
+redis-stable\
+dump.rdb
+.dockerignore
+docker-compose.yml
