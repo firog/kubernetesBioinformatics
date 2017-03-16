@@ -1,11 +1,6 @@
-# Scalable
+# Scalable cloud community
 
-To run locally run: 
-´´´bash
-python manage.py runserver
-´´´
+To run locally run: python manage.py runserver
 
-Run celery worker(s):
-´´´bash
-celery worker -A celery_worker.celery --loglevel=info
-´´´ 
+Run celery worker(s): celery worker -A celery_worker.celery --loglevel=info
+
