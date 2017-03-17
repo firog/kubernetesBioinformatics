@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from config import config, Config
@@ -15,7 +16,7 @@ login_manager.login_view = 'auth.login'
 
 celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
 
-def create_app(config_name):
+def create_app(config_name=(os.getenv('FLASK_CONFIG') or 'default')):
 	app = Flask(__name__)
 	app.config.from_object(config[config_name])
 

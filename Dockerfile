@@ -11,6 +11,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 #RUN pip install -r /usr/src/manage/requirements.txt
-EXPOSE 8000
-RUN chmod +x run.sh
-CMD ["./run.sh"]
+#EXPOSE 8000
+#RUN chmod +x run.sh
+#CMD ["./run.sh"]
+CMD gunicorn -b 0.0.0.0:8000 --access-logfile - "app:create_app()"
