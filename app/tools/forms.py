@@ -7,13 +7,12 @@ class DbBlastForm(Form):
 
 class BlastForm(Form):
     myChoices = range(1,6)
-    filename = FileField('Test File') #,validators=[Required()])
+    fasta = FileField('Fastafile') #,validators=[Required()])
     outfmt = StringField('Outfmt.', default='6')
     block_size = StringField('Size of blocks to split file into.', default='100k')
-    blastAlgorithm = StringField('blastn or blastp', validators=[Required()])
-    evalue = StringField('Evalue')
+    blastAlgorithm = StringField('blastn or blastp', default='blastn', validators=[Required()])
+    evalue = StringField('Evalue', default='1e-06')
     submit = SubmitField('Submit job.')
-    # TODO implement Blast form
 
 class AddForm(Form):
     x = IntegerField('x')

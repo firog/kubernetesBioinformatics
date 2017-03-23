@@ -1,13 +1,14 @@
-from flask import render_template, current_app, request, redirect, url_for, flash, jsonify, Markup
-import json
-from werkzeug import secure_filename
-from time import time
-from ..tasks import fib, blast_task, wherami
 import subprocess
 import os
+import json
+from flask import render_template, current_app, request, redirect, url_for, flash, jsonify
+from werkzeug import secure_filename
+from celery import chord
+from time import time
+from ..tasks import fib, blast_task, wherami, upload_task
 from flask_login import login_user, logout_user, login_required
 from . import tools
-from .forms import BlastForm, AddForm
+from .forms import BlastForm
 
 @tools.route('/')
 def index():
@@ -18,14 +19,21 @@ def index():
 def blast():
     form = BlastForm()
     if form.validate_on_submit():
-        fastafile = form.filename.data
+        fastafile = form.fasta.data
         filename = secure_filename(fastafile.filename)
         outfmt = form.outfmt.data
         blastn = form.blastAlgorithm.data
         block = form.block_size.data
         evalue = form.evalue.data
+
+        save_path = os.path.join(current_app.config['UPLOAD_FOLDER'],filename)
+        # result = chord(upload_task.s(fastafile,save_path), blast_task.s(filename,outfmt,blastn,block,evalue))
+        # result = upload_task.apply_async(args=[fastafile,save_path])
+
+        resultUpload = upload_task(fastafile,save_path)
         result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
-        # flash(Markup('Job running. Go to:<a href="localhost:5000/tools/status/%s" class="alert-link">here</a>.'% str(result)))
+        # result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
+
         flash('Job running. Go to: "localhost:5000/tools/status/%s" to check job status.' % str(result))
         return redirect(url_for('tools.blast'))
     return render_template('tools/blast.html', form=form)

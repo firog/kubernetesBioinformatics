@@ -7,11 +7,13 @@ class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret3'
 	ALLOWED_EXTENSIONS = set(['fasta', 'fastq'])
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
-	UPLOAD_FOLDER = '/home/olof/courses/exjobb/projExjobb/scalableCloudCommunity/userUploads'
+	UPLOAD_FOLDER = '/userUploads'
 
 	# CELERY_BROKER_URL = 'amqp://localhost:5672/'
-	CELERY_BROKER_URL = 'redis://172.18.0.2:6379/0'
-	CELERY_RESULT_BACKEND = 'redis://172.18.0.2:6379/0'
+	# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+	CELERY_BROKER_URL = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST')
+	CELERY_RESULT_BACKEND = 'rpc'
 
 class DevelopmentConfig(Config):
     DEBUG = True
