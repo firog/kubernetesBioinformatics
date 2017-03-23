@@ -11,4 +11,4 @@ Run celery worker(s): `celery worker -A celery_worker.celery --broker=amqp://gue
 
 To use Kubernetes, first create a cluster in GCE and configure kubectl for that cluster.
 
-Run: `./createcluster.sh` 
+cd into kubeSpec and Run: `./createcluster.sh` 
