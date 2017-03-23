@@ -6,5 +6,8 @@
 
 To run locally run: `python manage.py runserver`
 
-Run celery worker(s): `celery worker -A celery_worker.celery --loglevel=info`
+Run celery worker(s): `celery worker -A celery_worker.celery --broker=amqp://guest:guest@localhost:5672// --loglevel=info`
 
+
+To use Kubernetes, first create a cluster in GCE and configure kubectl for that cluster.
+Run: `./createcluster.sh` 
