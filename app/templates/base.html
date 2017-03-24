@@ -1,6 +1,5 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}Pages{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -25,7 +24,7 @@
                 {% if (current_user.is_authenticated) %}
                 <li><a href="{{ url_for('pages.user', username=current_user.username) }}">Profile</a></li>
                 <li><a href="{{ url_for('pages.new_post') }}">New Post</a></li>
-                <li><a href="{{ url_for('uploads.upload') }}">New Upload</a></li>
+                <!-- <li><a href="{{ url_for('uploads.upload') }}">New Upload</a></li> -->
                 <li><a href="http://localhost:5000/api/1/">API</a></li>
 
                 <li class="dropdown">

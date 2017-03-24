@@ -30,7 +30,7 @@ def blast():
         # result = chord(upload_task.s(fastafile,save_path), blast_task.s(filename,outfmt,blastn,block,evalue))
         # result = upload_task.apply_async(args=[fastafile,save_path])
 
-        resultUpload = upload_task(fastafile,save_path)
+        # resultUpload = upload_task(fastafile,save_path)
         result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
         # result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
 

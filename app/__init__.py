@@ -15,9 +15,9 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
 # CELERY_BROKER_URL = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST')
-# celery = Celery(__name__, broker='amqp://guest@%s' % os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST'))
+celery = Celery(__name__, broker='amqp://guest@%s' % os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST'))
 
-celery = Celery(__name__)
+# celery = Celery(__name__)
 
 def create_app(config_name=(os.getenv('FLASK_CONFIG') or 'default')):
 	app = Flask(__name__)

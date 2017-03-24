@@ -11,8 +11,10 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY . .
 
-CMD python manage.py runserver --host 0.0.0.0 --port 5000
-#CMD ["./run.sh"]
+#CMD python manage.py runserver --host 0.0.0.0 --port 5000
+CMD mkdir -p $HOME/run/celery/pid
+CMD mkdir -p $HOME/log/celery/log
+CMD ["./run.sh"]
 
 #CMD gunicorn -b 0.0.0.0:8000 --access-logfile - "app:create_app()"
 

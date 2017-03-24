@@ -29,7 +29,7 @@ def blast_task(filename,outfmt,blastn,block,evalue):
 
 @celery.task(ignore_result=True)
 def upload_task(dataFile, save_path):
-    dataFile.save(save_path)
+    # dataFile.save(save_path)
     # filename.save(save_path)
 
     # form = UploadForm()
