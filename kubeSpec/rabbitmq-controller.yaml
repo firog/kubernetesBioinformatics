@@ -7,12 +7,15 @@ metadata:
 spec:
   replicas: 1
   selector:
-    component: rabbitmq
+    component: rabbitmqc
+    name: rabbitmq
   template:
     metadata:
       labels:
+        name: rabbitmq
         app: taskQueue
-        component: rabbitmq
+        component: rabbitmqc
+        uses: rabbitmq-service
     spec:
       containers:
       - image: rabbitmq
