@@ -14,11 +14,26 @@ from .forms import BlastForm
 def index():
     return render_template('pages/index.html')
 
+@tools.route('/results')
+def results():
+    pass
+
 @tools.route('/blast', methods=['GET','POST'])
 @login_required
 def blast():
     form = BlastForm()
+    if form.cloud_provider.data == 'GCE':
+        from libcloud.storage.types import Provider
+        from libcloud.storage.providers import get_driver
+
+        pass #TODO add apache libcloud support for GCE
+    elif form.cloud_provider.data == 'AWS':
+        pass #TODO add apache libcloud support for AWS
+    elif form.cloud_provider.data == 'Azure':
+        pass #TODO add apache libcloud support for Azure
+
     if form.validate_on_submit():
+        # Path to file: ((subprocess.check_output(["pwd"])).decode('UTF-8')).rstrip('\n') + '/' + form.fasta.data.filename
         fastafile = form.fasta.data
         filename = secure_filename(fastafile.filename)
         outfmt = form.outfmt.data
