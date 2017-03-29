@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: myapp-controller
+  labels:
+    name: myapp
+    visualize: "true"
+spec:
+  replicas: 2
+  selector:
+    name: myapp
+  template:
+    metadata:
+      labels:
+        visualize: "true"
+        name: myapp
+        app: myapp-test
+        uses: myapp-service
+    spec:
+      containers:
+        - name: myapp
+          image: firog/test-app
+          ports:
+            - name: http
+              containerPort: 5000

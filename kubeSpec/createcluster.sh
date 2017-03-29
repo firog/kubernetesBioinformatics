@@ -10,6 +10,7 @@ kubectl delete deployments myapp
 
 kubectl create -f rabbitmq-service.yaml
 kubectl create -f rabbitmq-controller.yaml
+#sleep 10
 kubectl create -f app-service.yaml
 kubectl create -f app-deployment.yaml
 #kubectl create -f app-controller.yaml

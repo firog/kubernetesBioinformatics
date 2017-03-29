@@ -4,10 +4,12 @@ metadata:
   name: rabbitmq-service
   labels:
     name: rabbitmq
-    visualise: "true"
-spec:
-  ports:
-  - port: 5672
-  selector:
     app: taskQueue
-    component: rabbitmqc
+    visualize: "true"
+spec:
+  selector:
+    name: rabbitmq
+  ports:
+    - protocol: TCP
+      port: 5672
+      targetPort: http

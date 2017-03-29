@@ -1,27 +1,25 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
+  name: rabbitmq-controller
   labels:
     name: rabbitmq
-  name: rabbitmq-controller
+    visualize: "true"
 spec:
   replicas: 1
   selector:
-    component: rabbitmqc
     name: rabbitmq
   template:
     metadata:
       labels:
+        visualize: "true"
         name: rabbitmq
         app: taskQueue
-        component: rabbitmqc
         uses: rabbitmq-service
     spec:
       containers:
-      - image: rabbitmq
-        name: rabbitmq
-        ports:
-        - containerPort: 5672
-        resources:
-          limits:
-            cpu: 100m
+        - name: rabbitmq
+          image: rabbitmq
+          ports:
+            - name: http
+              containerPort: 5672

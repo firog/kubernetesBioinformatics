@@ -1,0 +1,23 @@
+kind: ReplicationController
+apiVersion: v1
+metadata: 
+ name: nginx
+ labels: 
+  visualize: true
+  name: nginx
+spec: 
+ replicas: 2
+ selector: 
+  name: nginx
+ template: 
+  metadata: 
+   labels: 
+    visualize: true
+    name: nginx
+    app: sample
+    version: "0.0.1"
+    uses: nginx
+  spec: 
+   containers:  
+   - name: nginx
+     image: nginx
