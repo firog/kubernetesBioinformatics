@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: celery-controller
+  labels:
+    name: celery
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: celery
+    spec:
+      containers:
+        - image: firog/celery-app
+          name: celery
+          ports:
+            - name: http
+              containerPort: 5672
