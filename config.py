@@ -5,9 +5,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
 	APP_NAME = "Bioinf Toolbox"
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret3'
-	ALLOWED_EXTENSIONS = set(['fasta', 'fastq'])
+	ALLOWED_EXTENSIONS = set(['fasta', 'fastq','zip'])
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
-	UPLOAD_FOLDER = '/userUploads'
+	UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'userUploads')
+
+	SERVICE_ACCOUNT = os.environ.get('SERVICE_ACCOUNT') or 'default'
+	PATH_TO_PEM = os.environ.get('PATH_TO_PEM') or 'default'
+	PROJECT_NAME = os.environ.get('PROJECT_NAME') or 'default'
 
 	# CELERY_BROKER_URL = 'amqp://localhost:5672/'
 	# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'

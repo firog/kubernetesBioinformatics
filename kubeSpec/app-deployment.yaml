@@ -6,7 +6,7 @@ metadata:
     name: myapp
     visualize: "true"
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     name: myapp
   template:
@@ -23,3 +23,11 @@ spec:
           ports:
             - name: http
               containerPort: 5000
+          volumeMounts:
+            - name: myapp-persistent-storage
+              mountPath: /myapp
+      volumes:
+        - name: myapp-persistent-storage
+          gcePersistentDisk:
+            pdName: myapp-disk
+            fsType: ext4

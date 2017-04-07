@@ -27,6 +27,18 @@ def blast_task(filename,outfmt,blastn,block,evalue):
     subprocess.call(['makeblastdb','-in',filename,'-dbtype','nucl','-out',filename+'db'])
     subprocess.call(['%s/bashscripts/runparallelblast.sh' % wherami ,filename, block, blastn, evalue, outfmt, filename+'db'])
 
+
+@celery.task
+def caw_task(cawform):
+    form = cawform
+    if form.validate_on_submit():
+        f = form.zipfile.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('tools.caw'))
+    return render_template('tools/caw.html', form=form)
+
+
 @celery.task(ignore_result=True)
 def upload_task(dataFile, save_path):
     # dataFile.save(save_path)
