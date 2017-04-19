@@ -8,9 +8,14 @@ metadata:
     visualize: "true"
 spec:
   type: LoadBalancer
+  # loadBalancerIP: 104.155.62.244
   selector:
     name: myapp
   ports:
     - protocol: TCP
       port: 5000
       targetPort: http
+
+
+
+# Use kubenow and connect to cluster over localhost instead

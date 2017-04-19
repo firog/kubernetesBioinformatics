@@ -14,3 +14,16 @@ user = api.model('User',{'email': fields.String(required=True, description='The 
                 'is_admin': fields.Boolean(description='Is admin'), \
                 'name': fields.String(description='Name of user'),
 })
+
+task = api.model('Task', {'id': fields.Integer(required=True, description='Primary key'), \
+                # 'user_id': fields.Integer(required=True, description='User id of job creator')
+                'task_id': fields.String(required=True, description='Task id'), \
+                'task_state': fields.String(required=True, description='Task state'), \
+                'task_name': fields.String(required=True, description='Task name'), \
+                'result': fields.String(required=True, description='Task result'), \
+                # 'created_by': fields.String
+})
+
+filecontent = api.model('Fasta',{'read_id': fields.String(required=True, description='Read identifier'), \
+                        'read': fields.String(required=True, description='DNA sequence'),
+})

@@ -17,3 +17,11 @@ spec:
           ports:
             - name: http
               containerPort: 5672
+          volumeMounts:
+            - name: myapp-persistent-storage
+              mountPath: /saves
+      volumes:
+        - name: myapp-persistent-storage
+          gcePersistentDisk:
+            pdName: myapp-ssd
+            fsType: ext4

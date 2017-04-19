@@ -20,12 +20,6 @@ class CawForm(Form):
     zipfile = FileField('Zip with the fasta files')
     submit = SubmitField('Submit.')
 
-class AddForm(Form):
-    x = IntegerField('x')
-    y = IntegerField('y')
-
-class BlastNForm(Form):
-    pass
-
-class RaxmlForm(Form):
-    pass
+class UploadForm(Form):
+    filehandle = FileField('File to upload')
+    submit = SubmitField('Upload file.')

@@ -14,10 +14,7 @@ moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-# CELERY_BROKER_URL = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST')
-celery = Celery(__name__, broker='amqp://guest@%s' % os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST'))
-
-# celery = Celery(__name__)
+celery = Celery(__name__, backend='rpc://', broker='amqp://guest@%s' % os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST'))
 
 def create_app(config_name=(os.getenv('FLASK_CONFIG') or 'default')):
 	app = Flask(__name__)
@@ -29,7 +26,6 @@ def create_app(config_name=(os.getenv('FLASK_CONFIG') or 'default')):
 	moment.init_app(app)
 	celery.conf.update(app.config)
 	celery.conf['CELERY_BROKER_URL'] = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST') or 'default'
-	# print ("after app creation:"+celery.conf['CELERY_BROKER_URL']+"\n")
 
 	from .pages import pages as pages_blueprint
 	app.register_blueprint(pages_blueprint)

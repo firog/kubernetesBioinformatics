@@ -17,7 +17,7 @@ class Config:
 	# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 	CELERY_BROKER_URL = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST')
-	CELERY_RESULT_BACKEND = 'rpc'
+	CELERY_RESULT_BACKEND = 'rpc://'
 
 class DevelopmentConfig(Config):
     DEBUG = True

@@ -3,8 +3,10 @@
 
 {% block page_content %}
 
-<div class="page-header">
-	<h1>Caw</h1>
-</div>
+<form method="POST" enctype="multipart/form-data">
+	<div class="page-header">
+		<h1>Caw</h1>
+	</div>
+</form>
 {{ wtf.quick_form(form) }}
 {% endblock %}

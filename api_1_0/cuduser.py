@@ -4,13 +4,6 @@ from flask import jsonify
 from app import db
 from app.models import User
 
-email_regex = re.compile(
-    r'^'
-    '(?P<local>[^@]*[^@.])'
-    r'@'
-    r'(?P<server>[^@]+(?:\.[^@]+)*)'
-    r'$', re.IGNORECASE)
-
 def get_user(username):
     if User.query.filter_by(username = username).first() is None:
         abort(400, "User does not exist")

@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from flask_restplus import Namespace, Resource, fields
+from flask_restplus import Namespace, Resource
 from app.models import Post
 from ..serializers import post
 from ..cudpost import create_post, delete_post, update_post, get_post

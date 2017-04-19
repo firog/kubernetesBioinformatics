@@ -24,19 +24,16 @@ def blast_task(filename,outfmt,blastn,block,evalue):
     # filename.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 
     filename = wherami+'/userUploads/newfa.fa'
-    subprocess.call(['makeblastdb','-in',filename,'-dbtype','nucl','-out',filename+'db'])
-    subprocess.call(['%s/bashscripts/runparallelblast.sh' % wherami ,filename, block, blastn, evalue, outfmt, filename+'db'])
+    subprocess.call(['/myapp/makeblastdb','-in',filename,'-dbtype','nucl','-out',filename+'db'])
+    subprocess.call(['%s/bashscripts/runparallelblast.sh' % wherami ,filename, block, "/myapp/"+blastn, evalue, outfmt, filename+'db'])
 
 
 @celery.task
-def caw_task(cawform):
-    form = cawform
-    if form.validate_on_submit():
-        f = form.zipfile.data
-        filename = secure_filename(f.filename)
-        f.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('tools.caw'))
-    return render_template('tools/caw.html', form=form)
+def test_uptask(f):
+    filename = secure_filename(f.filename)
+    f.save('/saves',filename)
+    # f.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+    return '200'
 
 
 @celery.task(ignore_result=True)
@@ -58,10 +55,4 @@ def upload_task(dataFile, save_path):
     #
     #
     #
-    # def upload_file():
-    # 	if request.method == 'POST':
-    # 		f = request.files['file']
-    # 		filename = secure_filename(f.filename)
-    # 		f.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-    # 		flash('File uploading.')
     # 		return render_template('pages/index.html')

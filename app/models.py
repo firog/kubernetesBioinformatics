@@ -45,8 +45,30 @@ class User(UserMixin, db.Model):
 		return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
 			url=url, hash=hash, size=size, default=default, rating=rating)
 
-	# def get_url(self):
-	# 	return url_for('api.')
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class Post(db.Model):
+	__tablename__ = 'posts'
+	id = db.Column(db.Integer, primary_key=True)
+	title = db.Column(db.String(128), nullable=False)
+	content = db.Column(db.String(512), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	date = db.Column(db.DateTime(), default=datetime.utcnow)
+
+class Task(db.Model):
+	__tablename__ = 'tasks'
+	id = db.Column(db.Integer, primary_key=True)
+	# user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	task_id = db.Column(db.String(512))
+	task_state = db.Column(db.String(32))
+	task_name = db.Column(db.String(32))
+	result = db.Column(db.String)
+	# created_by = db.Column(db.String(64))
+
+
 
 	# def get_api_token(self, expiration=300):
 	# 	s = Serializer(current_app.config['SECRET_KEY'], expiration)
@@ -63,15 +85,3 @@ class User(UserMixin, db.Model):
 	# 	if id:
 	# 		return User.query.get(id)
 	# 	return None
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-class Post(db.Model):
-	__tablename__ = 'posts'
-	id = db.Column(db.Integer, primary_key=True)
-	title = db.Column(db.String(128), nullable=False)
-	content = db.Column(db.String(512), nullable=False)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-	date = db.Column(db.DateTime(), default=datetime.utcnow)
