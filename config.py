@@ -16,7 +16,7 @@ class Config:
 	# CELERY_BROKER_URL = 'amqp://localhost:5672/'
 	# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
-	CELERY_BROKER_URL = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST')
+	CELERY_BROKER_URL = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST') or 'amqp://'
 	CELERY_RESULT_BACKEND = 'rpc://'
 
 class DevelopmentConfig(Config):

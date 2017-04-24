@@ -25,7 +25,7 @@ def create_app(config_name=(os.getenv('FLASK_CONFIG') or 'default')):
 	login_manager.init_app(app)
 	moment.init_app(app)
 	celery.conf.update(app.config)
-	celery.conf['CELERY_BROKER_URL'] = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST') or 'default'
+	celery.conf['CELERY_BROKER_URL'] = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST') or 'amqp://'
 
 	from .pages import pages as pages_blueprint
 	app.register_blueprint(pages_blueprint)

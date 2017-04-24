@@ -1,7 +1,8 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify
+import os
+from flask import render_template, flash, redirect, url_for, request, jsonify, current_app
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User, Post
+from ..models import User, Post, Task
 from . import pages
 from .forms import ProfileForm, PostForm
 
@@ -52,3 +53,16 @@ def new_post():
 def post(id):
 	post = Post.query.get_or_404(id)
 	return render_template('pages/post.html', post=post)
+
+@pages.route('/files')
+def list_files():
+	filelst = os.listdir(os.path.join(current_app.config['UPLOAD_FOLDER']))
+	filedic = {}
+	filedic['files'] = filelst
+	data = jsonify(filedic)
+	return render_template('pages/list_files.html', data=filedic)
+
+@pages.route('/jobs')
+def list_jobs():
+	tasklst = Task.query.all()
+	return render_template('pages/list_jobs.html', data=tasklst)

@@ -24,6 +24,9 @@ task = api.model('Task', {'id': fields.Integer(required=True, description='Prima
                 # 'created_by': fields.String
 })
 
-filecontent = api.model('Fasta',{'read_id': fields.String(required=True, description='Read identifier'), \
-                        'read': fields.String(required=True, description='DNA sequence'),
+filecontent = api.model('Fasta',{'read': fields.String(required=True, description='Read identifier'), \
+                        'read_id': fields.String(required=True, description='DNA sequence'),
 })
+
+
+fib = api.model('Fib', {'n': fields.Integer(required=True, description='Fib(n)')})

@@ -15,4 +15,5 @@ dump.rdb
 .dockerignore
 docker-compose.yml
 build.sh
-
+celery.log
+celery.pid
