@@ -14,6 +14,7 @@ kubectl create -f rabbitmq-controller.yaml
 kubectl create -f app-service.yaml
 kubectl create -f app-deployment.yaml
 kubectl create -f celery-controller.yaml
+#kubectl create -f app-ingress.yaml
 #kubectl create -f app-controller.yaml
 #kubectl run test-app --image=firog/test-app --port=5000
 #kubectl expose deployment test-app --type=NodePort

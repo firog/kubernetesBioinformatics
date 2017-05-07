@@ -3,6 +3,7 @@ import os
 import requests
 import json
 import time
+from luigi_tasks import Fib
 from flask import render_template, current_app, request, redirect, url_for, flash, jsonify, Response, stream_with_context
 from werkzeug import secure_filename
 from ..tasks import fib, blast_task, upload_task
@@ -13,21 +14,16 @@ from .forms import BlastForm, CawForm, UploadForm
 from celery.result import AsyncResult
 
 
+@tools.route('/luigi/fib/<int:n>')
+def luigifib(n):
+    # s = Fib(n)
+    # s.run()
+    subprocess.check_output(['luigi', '--module', 'luigi_tasks','Fib','--n',str(n),'--local-scheduler'])
+
+
 @tools.route('/')
 def index():
     return render_template('pages/index.html')
-
-
-@tools.route('/stream')
-def stream_data():
-    def generate():
-        fa = open('userUploads/newfile.test', 'a')
-        with open('userUploads/newfa.fa','r') as f:
-            for line in f:
-
-                s = yield line
-                # fa.writelines(yield line)
-    return Response(generate())
 
 
 @tools.route('/blast', methods=['GET','POST'])
@@ -40,8 +36,8 @@ def blast():
         filename = secure_filename(fastafile.filename)
         outfmt = form.outfmt.data
         blastn = form.blastAlgorithm.data
-        block = form.block_size.data
         evalue = form.evalue.data
+        block = form.block_size.data
 
         save_path = os.path.join(current_app.config['UPLOAD_FOLDER'],filename)
         # result = chord(upload_task.s(fastafile,save_path), blast_task.s(filename,outfmt,blastn,block,evalue))
@@ -55,8 +51,6 @@ def blast():
         addtodb(str(result), 'blast')
         return redirect(url_for('tools.blast'))
     return render_template('tools/blast.html', form=form)
-
-
 
 
 @tools.route('/caw', methods=['GET', 'POST'])
@@ -89,16 +83,26 @@ def upload():
     if form.validate_on_submit():
         f = form.filehandle.data
         filename = secure_filename(f.filename)
-        path = os.path.join(current_app.config['UPLOAD_FOLDER'])
+        save_data(filename)
         # result = upload_task.delay(path,filename,f)
         # f.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
         # result = upload_task(path,filename,f)
         flash("File Uploading")
-        return f.read()
         return redirect(url_for('pages.list_files'))
     return render_template('uploads/upload.html', form=form)
 
 
+def stream_data(filename):
+    with open(filename,'r') as f:
+        for line in f:
+            yield line
+
+
+def save_data(filename):
+    with open('userUploads/'+filename, 'w') as nf:
+        for line in stream_data(filename):
+            nf.write(line)
+    return 'hi'
 
 @tools.route('/status/<task_id>')
 def task_status(task_id):
@@ -147,7 +151,7 @@ def fileContent():
     file_content = []
     with open(fastafile, 'r') as f:
         for n in range(500):
-        # for line in f:
+        # for line in f: # Entire file
             d = {'read_id':'', 'read': ''}
             d['read_id'] = f.readline().rstrip()
             d['read'] = f.readline().rstrip()

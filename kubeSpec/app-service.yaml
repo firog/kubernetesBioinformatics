@@ -8,6 +8,7 @@ metadata:
     visualize: "true"
 spec:
   type: LoadBalancer
+  # type: NodePort
   # loadBalancerIP: 104.155.62.244
   selector:
     name: myapp
@@ -16,6 +17,19 @@ spec:
       port: 5000
       targetPort: http
 
-
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: firog-ingress
+spec:
+  rules:
+    - host: firog.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: myapp-service
+              servicePort: http
 
 # Use kubenow and connect to cluster over localhost instead
