@@ -1,5 +1,5 @@
 # Scalable cloud community
-#### The only file needed to spawn a cluster in this repo is the "createall.sh" bash script.
+#### The only file needed in this repo to spawn a cluster with the application is the "createall.sh" bash script.
 
 
 Create an account for google cloud engine (GCE). (console.cloud.google.com)
