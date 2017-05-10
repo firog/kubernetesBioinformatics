@@ -14,6 +14,6 @@ Download a service account file in json format for your GCE project:
 
 `API manager > Credentials > Create credentials > Service account key` (Use "Compute Engine default service account if you don't know what to pick")
 
-You need to install docker. On debian or ubuntu, run: `sudo apt-get install docker-ce`.
+You need to have docker installed. To install on debian or ubuntu, run: `sudo apt-get install docker-ce`.
 
 Now run `createall.sh` and follow the instructions. A cluster with the application will be installed in a couple of minutes.
