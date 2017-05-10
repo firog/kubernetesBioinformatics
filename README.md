@@ -1,15 +1,10 @@
 # Scalable cloud community
-To run locally:
-`git clone https://github.com/firog/scalableCloudCommunity.git`
 
-`pip install -r requirements.txt`
+Create an account for google cloud engine (GCE). (console.cloud.google.com)
 
-`python manage.py runserver`
+Enable Compute engine and Container engine api:
+API manager > Library > Compute Engine API
+API manager > Library > Container Engine API
 
-Run celery worker(s): `celery worker -A celery_worker.celery --broker=amqp://guest:guest@localhost:5672// --loglevel=info`
-
-To run on a cloud provider using Kubernetes:
-
-First create a cluster on GCE, AWS or Azure and configure kubectl for that cluster.
-
-cd into kubeSpec and Run: `./createcluster.sh`
+Download a service account file for your GCE project:
+API manager > Credentials > Create credentials > Service account key

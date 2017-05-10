@@ -8,6 +8,7 @@ metadata:
 spec:
   replicas: 1
   selector:
+    # matchLabels:
     name: myapp
   template:
     metadata:
@@ -23,11 +24,12 @@ spec:
           ports:
             - name: http
               containerPort: 5000
-          volumeMounts:
-            - name: myapp-persistent-storage
-              mountPath: /myapp
-      volumes:
-        - name: myapp-persistent-storage
-          gcePersistentDisk:
-            pdName: myapp-disk
-            fsType: ext4
+      #     volumeMounts:
+      #       - name: myapp-persistent-storage
+      #         mountPath: /myapp
+      # volumes:
+      #   - name: myapp-persistent-storage
+      #     gcePersistentDisk:
+      #       pdName: myapp-disk
+      #       fsType: ext4
+      #       readOnly: true

@@ -18,18 +18,31 @@ spec:
       targetPort: http
 
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: firog-ingress
-spec:
-  rules:
-    - host: firog.club
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: myapp-service
-              servicePort: http
-
-# Use kubenow and connect to cluster over localhost instead
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: myapp-service
+#   labels:
+#     name: myapp
+#     app: myapp
+# spec:
+#   ports:
+#   - name: http
+#     targetPort: 80
+#     port: 5000
+#   selector:
+#     name: myapp
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: myapp-service
+# spec:
+#   rules:
+#     - host: myapp.firog.club
+#       http:
+#         paths:
+#           - path: /
+#             backend:
+#               serviceName: myapp-service
+#               servicePort: 80
