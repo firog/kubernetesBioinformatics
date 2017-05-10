@@ -3,7 +3,6 @@ import os
 import requests
 import json
 import time
-from luigi_tasks import Fib
 from flask import render_template, current_app, request, redirect, url_for, flash, jsonify, Response, stream_with_context
 from werkzeug import secure_filename
 from ..tasks import fib, blast_task, upload_task
@@ -12,13 +11,6 @@ from . import tools
 from .. import db, celery
 from .forms import BlastForm, CawForm, UploadForm
 from celery.result import AsyncResult
-
-
-@tools.route('/luigi/fib/<int:n>')
-def luigifib(n):
-    # s = Fib(n)
-    # s.run()
-    subprocess.check_output(['luigi', '--module', 'luigi_tasks','Fib','--n',str(n),'--local-scheduler'])
 
 
 @tools.route('/')
