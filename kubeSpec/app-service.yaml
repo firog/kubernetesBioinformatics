@@ -9,7 +9,6 @@ metadata:
 spec:
   type: LoadBalancer
   # type: NodePort
-  # loadBalancerIP: 104.155.62.244
   selector:
     name: myapp
   ports:
