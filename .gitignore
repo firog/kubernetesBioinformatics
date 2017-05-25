@@ -1,3 +1,6 @@
+myapp.service
+application
+application.ini
 application.sock
 .env
 venv
