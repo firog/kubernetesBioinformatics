@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<div class="col-lg-4">
+	{% for post in data %}
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+			{{ post.title }}
+    </div>
+  	<div class="panel-body">
+			<p>{{ post.content }}</p>
+    </div>
+      <div class="panel-footer">
+          Posted by <a href="{{ url_for('pages.user', username=post.author.username) }}">{{ post.author.username }}</a> on {{ moment(post.date, local=True).format('LL') }}
+      </div>
+  </div>
+	{% endfor %}
+</div>
+{% endblock %}

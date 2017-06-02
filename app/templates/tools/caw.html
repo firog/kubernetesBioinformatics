@@ -4,9 +4,30 @@
 {% block page_content %}
 
 <form method="POST" enctype="multipart/form-data">
-	<div class="page-header">
-		<h1>Caw</h1>
+	<div class="col-lg-5">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+		<h2>Cancer analysis workflow</h2>
+		<div class="panel-body">
+{{ wtf.quick_form(form) }}
+		</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4">
+		<div class="panel panel-info">
+	  	<div class="panel-heading">
+	  		Cancer analysis workflow
+	  	</div>
+	  	<div class="panel-body">
+				<p>
+					Cancer analysis workflow (caw) is an open source pipeline used for detection of somatic variants from WGS data.
+					It was developed by the <a href="https://ngisweden.scilifelab.se/">National Genomics Infrastructure</a> at SciLifeLab Stockholm, Sweden.
+					The pipeline can begin the analysis either from raw FASTQ files, only from the realignment step, or directly with any subset of variant callers using recalibrated BAM files.
+					<a href="https://github.com/SciLifeLab/CAW">Github repo<i class="fa fa-fw fa-github"></i></a>
+				</p>
+	  	</div>
+		</div>
 	</div>
 </form>
-{{ wtf.quick_form(form) }}
 {% endblock %}

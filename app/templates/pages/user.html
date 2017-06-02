@@ -1,12 +1,27 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-<div class="page-header user-profile">
+<div class="col-lg-5">
+  <div class="panel panel-default">
+  <div class="panel-heading">
   <div class="user-avatar"><img src="{{ user.gravatar(128) }}"></div>
   {% if current_user == user %}<a class="btn btn-default pull-right" href="{{ url_for('pages.profile') }}">Edit Profile</a>{% endif %}
-  {{ user.username }}
   {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
   <h1>{{ user.username }}</h1>
 </div>
-{% include "pages/_posts.html" %}
+</div>
+</div>
+</div>
 {% endblock %}
+
+
+<div class="col-lg-5">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h1>BLAST</h1>
+			<div class="panel-body">
+				{{ wtf.quick_form(form) }}
+			</div>
+		</div>
+	</div>
+</div>

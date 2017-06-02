@@ -19,6 +19,23 @@ def login():
 		return redirect(request.args.get('next') or url_for('pages.index'))
 	return render_template('auth/login.html', form=form)
 
+
+# @auth.route('/login', methods=['GET', 'POST'])
+# def login():
+# 	if request.method == 'POST':
+# 		form = LoginForm(request.form)
+# 		if form.validate():
+# 			user = User.query.filter_by(email=form.email.data).first()
+# 			if user is None or not user.verify_password(form.password.data):
+# 				flash('Invalid username or password.')
+# 				return redirect(url_for('.login'))
+# 			login_user(user, form.remember_me.data)
+# 			return redirect(url_for('pages.index'))
+# 		return render_template('auth/login.html', form=LoginForm())
+# 	# 	else:
+# 	# 		return render_template('auth/login.html', form=form)
+# 	return render_template('auth/login.html', form=LoginForm())
+
 @auth.route('/logout')
 def logout():
 	logout_user()

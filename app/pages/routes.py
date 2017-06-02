@@ -10,7 +10,8 @@ from .forms import ProfileForm, PostForm
 @pages.route('/home')
 def index():
 	post_list = Post.query.order_by(Post.date.desc()).all()
-	return render_template('pages/index.html', posts=post_list)
+	job_list = Task.query.all()
+	return render_template('pages/index.html', postsLength=len(post_list), jobLength=len(job_list))
 
 @pages.route('/user/<username>')
 def user(username):
@@ -66,3 +67,8 @@ def list_files():
 def list_jobs():
 	tasklst = Task.query.all()
 	return render_template('pages/list_jobs.html', data=tasklst)
+
+@pages.route('/posts')
+def list_posts():
+	posts = Post.query.all()
+	return render_template('pages/list_posts.html',data=posts)

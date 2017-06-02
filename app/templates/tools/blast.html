@@ -2,9 +2,24 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-
-<div class="page-header">
-	<h1>BLAST</h1>
+<div class="col-lg-5">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h1>BLAST</h1>
+			<div class="panel-body">
+				{{ wtf.quick_form(form) }}
+			</div>
+		</div>
+	</div>
 </div>
-{{ wtf.quick_form(form) }}
+<div class="col-lg-4">
+	<div class="panel panel-info">
+  	<div class="panel-heading">
+  		BLAST
+  	</div>
+  	<div class="panel-body">
+    	<p>This implementation of Blast uses the input to create a database and runs on it. This is suitable when e.g. analysing an unknown gene in a novel species belonging to a known phyla. This BLAST implementation uses the <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi">ncbi+ toolkit.</a> </p>
+  	</div>
+	</div>
+</div>
 {% endblock %}

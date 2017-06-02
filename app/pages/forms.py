@@ -12,4 +12,4 @@ class ProfileForm(Form):
 class PostForm(Form):
     title = TextField(validators=[Required()])
     content = TextAreaField(validators=[Required(), Length(1,512)])
-    submit = SubmitField('Post')
+    submit = SubmitField('Post.')

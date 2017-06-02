@@ -1,10 +1,32 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
 {% block page_content %}
 
-<div class="page-header">
-	<h1>Login</h1>
-</div>
-{{ wtf.quick_form(form) }}
+<form action="{{url_for('auth.login')}}" class="form-horizontal" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="page-header">
+        <h1 class="form-heading">Login</h1>
+        </div>
+        <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+        <div class="col-sm-3">
+					<label>Email</label>
+
+        {{ form.email(placeholder="E.g. brucewayne@wayne.com", class="form-control") }}
+        </div>
+        <p class="col-sm-5 help-block">
+        {{ form.email.errors[0] }}
+
+        </div>
+        <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+
+        <div class="col-sm-3">
+					<label>Password</label>
+        {{ form.password(placeholder="Min. 6 Characters", class="form-control") }}
+        </div>
+        <p class="col-sm-5 help-block">
+        {{ form.password.errors[0] }}
+
+        </div>
+
+        <button class="btn btn-success" type="submit">Login</button>
+</form>
 {% endblock %}
