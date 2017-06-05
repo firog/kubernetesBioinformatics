@@ -17,7 +17,7 @@ class BlastForm(Form):
     submit = SubmitField('Submit job.')
 
 class CawForm(Form):
-    zipfile = FileField('Zip with the fasta files')
+    zipfile = FileField('Zip with FASTA or FASTQ')
     submit = SubmitField('Submit.')
 
 class UploadForm(Form):
