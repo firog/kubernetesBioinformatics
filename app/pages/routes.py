@@ -3,6 +3,8 @@ from flask import render_template, flash, redirect, url_for, request, jsonify, c
 from flask_login import login_required, current_user
 from .. import db
 from ..models import User, Post, Task
+from app.tools.routes import task_update
+from api_1_0.endpoints.task import TaskList
 from . import pages
 from .forms import ProfileForm, PostForm
 
@@ -66,6 +68,9 @@ def list_files():
 @pages.route('/jobs')
 def list_jobs():
 	tasklst = Task.query.all()
+	for task in tasklst:
+		if task.task_state != 'SUCCESS':
+			task_update(task.task_id)
 	return render_template('pages/list_jobs.html', data=tasklst)
 
 @pages.route('/posts')

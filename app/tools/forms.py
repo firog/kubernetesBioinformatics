@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import SubmitField, StringField, SelectField, FileField, IntegerField
+from wtforms import SubmitField, StringField, SelectField, FileField, IntegerField, RadioField
 from wtforms.validators import Required
 
 class DbBlastForm(Form):
@@ -23,3 +23,7 @@ class CawForm(Form):
 class UploadForm(Form):
     filehandle = FileField('File to upload')
     submit = SubmitField('Upload file.')
+
+class FibForm(Form):
+    number = IntegerField('Fib of:')
+    submit = SubmitField('Submit.')

@@ -9,7 +9,8 @@ from ..tasks import fib, blast_task, upload_task
 from flask_login import login_required, current_user
 from . import tools
 from .. import db, celery
-from .forms import BlastForm, CawForm, UploadForm
+from ..models import Task
+from .forms import BlastForm, CawForm, UploadForm, FibForm
 from celery.result import AsyncResult
 
 
@@ -22,6 +23,7 @@ def index():
 @login_required
 def blast():
     form = BlastForm()
+    #TODO Fix stuff here
     if form.validate_on_submit():
         # Path to file: ((subprocess.check_output(["pwd"])).decode('UTF-8')).rstrip('\n') + '/' + form.fasta.data.filename
         fastafile = form.fasta.data
@@ -38,9 +40,11 @@ def blast():
         # resultUpload = upload_task(fastafile,save_path)
         result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
         # result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
-
+        task = Task(task_id=result.id, task_state=result.state, task_name="Blast")
+        db.session.add(task)
+        db.session.commit()
         flash('Job running. Go to: "/tools/status/%s" to check job status.' % str(result))
-        addtodb(str(result), 'blast')
+        # addtodb(str(result), 'blast')
         return redirect(url_for('tools.blast'))
     return render_template('tools/blast.html', form=form)
 
@@ -49,7 +53,7 @@ def blast():
 def caw():
     form = CawForm()
     if form.validate_on_submit():
-        # DO STUFF
+        #TODO DO STUFF
         pass
         return redirect(url_for('tools.caw'))
     return render_template('tools/caw.html', form=form)
@@ -59,15 +63,26 @@ def getfile():
     result = filecontent_thread()
     return result
 
-@tools.route('/fib/<int:n>')
-def fib_task(n):
-    result = fib.apply_async(args=[n])
-    flash('Fib %s running.' % str(result))
-    task = Task(task_id=result.id, task_state=result.state, task_name='fib(%s)' % n)#, created_by=current_user)
-    db.session.add(task)
-    db.session.commit()
-    return jsonify({'Check_results': url_for('tools.task_status', task_id=result), 'task_id': result.id, 'state': result.state})
+# @tools.route('/fib/<int:n>')
+# def fib_task(n):
+#     result = fib.apply_async(args=[n])
+#     flash('Fib %s running.' % str(result))
+#     task = Task(task_id=result.id, task_state=result.state, task_name='fib(%s)' % n)#, created_by=current_user)
+#     db.session.add(task)
+#     db.session.commit()
+#     return jsonify({'Check_results': url_for('tools.task_status', task_id=result), 'task_id': result.id, 'state': result.state})
 
+@tools.route('/fib', methods=['GET','POST'])
+def fib_task():
+    form = FibForm()
+    if form.validate_on_submit():
+        runFibTask = fib.apply_async(args=[form.number.data])
+        flash('Fib %s running.' % str(runFibTask))
+        task = Task(task_id=runFibTask.id, task_state=runFibTask.state, task_name='fib(%s)' % form.number.data)
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for('tools.fib_task'))
+    return render_template('tools/fib.html', form=form)
 
 @tools.route('/upload', methods=['GET', 'POST'])
 def upload():

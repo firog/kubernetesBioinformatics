@@ -13,7 +13,7 @@ RUN pip3 install -r requirements.txt
 COPY . .
 #COPY application /etc/nginx/sites-available/application
 #CMD ln -s /etc/nginx/sites-available/application /etc/nginx/sites-enabled/
-CMD service nginx restart
+#CMD service nginx restart
 CMD touch $INSTALL_PATH/celery.log
 CMD touch $INSTALL_PATH/celery.pid
 

@@ -52,7 +52,7 @@
                             <a href="{{ url_for('pages.user', username=current_user.username) }}"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            {% if current_user == user %}<a href="{{ url_for('pages.profile') }}"><i class="fa fa-fw fa-gear"></i> Settings</a>{% endif %}
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -95,6 +95,9 @@
                             </li>
                             <li>
                                 <a href="{{ url_for('tools.caw') }}">Cancer Analysis Workflow</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('tools.fib_task') }}">Fibonacci</a>
                             </li>
                         </ul>
                     </li>

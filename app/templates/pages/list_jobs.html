@@ -3,9 +3,31 @@
 {% block page_content %}
 
 <div class="page-header">
-	<h1>Jobs</h1>
-  {% for f in data %}
-    <li>{{ f }}</li>
-  {% endfor %}
+<h1> Tasks running and finished </h1>
+
+
+<div class="col-lg-6">
+    <h2>Tasks table </h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Job</th>
+                    <th>State</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+							{% for f in data %}
+                <tr>
+                    <td>{{ f.task_name }}</td>
+                    <td>{{ f.task_state }}</td>
+                    <td>{{ f.result }}</td>
+							{% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </div>
 {% endblock %}
