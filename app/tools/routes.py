@@ -5,7 +5,8 @@ import json
 import time
 from flask import render_template, current_app, request, redirect, url_for, flash, jsonify, Response, stream_with_context
 from werkzeug import secure_filename
-from ..tasks import fib, blast_task, upload_task
+from kubernetes import client, config
+from ..tasks import fib, blast_task
 from flask_login import login_required, current_user
 from . import tools
 from .. import db, celery
@@ -13,11 +14,9 @@ from ..models import Task
 from .forms import BlastForm, CawForm, UploadForm, FibForm
 from celery.result import AsyncResult
 
-
 @tools.route('/')
 def index():
     return render_template('pages/index.html')
-
 
 @tools.route('/blast', methods=['GET','POST'])
 @login_required
@@ -34,10 +33,7 @@ def blast():
         block = form.block_size.data
 
         save_path = os.path.join(current_app.config['UPLOAD_FOLDER'],filename)
-        # result = chord(upload_task.s(fastafile,save_path), blast_task.s(filename,outfmt,blastn,block,evalue))
-        # result = upload_task.apply_async(args=[fastafile,save_path])
 
-        # resultUpload = upload_task(fastafile,save_path)
         result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
         # result = blast_task.apply_async(args=[filename,outfmt,blastn,block,evalue])
         task = Task(task_id=result.id, task_state=result.state, task_name="Blast")
@@ -47,7 +43,6 @@ def blast():
         # addtodb(str(result), 'blast')
         return redirect(url_for('tools.blast'))
     return render_template('tools/blast.html', form=form)
-
 
 @tools.route('/caw', methods=['GET', 'POST'])
 def caw():
@@ -62,15 +57,6 @@ def caw():
 def getfile():
     result = filecontent_thread()
     return result
-
-# @tools.route('/fib/<int:n>')
-# def fib_task(n):
-#     result = fib.apply_async(args=[n])
-#     flash('Fib %s running.' % str(result))
-#     task = Task(task_id=result.id, task_state=result.state, task_name='fib(%s)' % n)#, created_by=current_user)
-#     db.session.add(task)
-#     db.session.commit()
-#     return jsonify({'Check_results': url_for('tools.task_status', task_id=result), 'task_id': result.id, 'state': result.state})
 
 @tools.route('/fib', methods=['GET','POST'])
 def fib_task():
@@ -91,25 +77,10 @@ def upload():
         f = form.filehandle.data
         filename = secure_filename(f.filename)
         save_data(filename)
-        # result = upload_task.delay(path,filename,f)
-        # f.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
-        # result = upload_task(path,filename,f)
+
         flash("File Uploading")
         return redirect(url_for('pages.list_files'))
     return render_template('uploads/upload.html', form=form)
-
-
-def stream_data(filename):
-    with open(filename,'r') as f:
-        for line in f:
-            yield line
-
-
-def save_data(filename):
-    with open('userUploads/'+filename, 'w') as nf:
-        for line in stream_data(filename):
-            nf.write(line)
-    return 'hi'
 
 @tools.route('/status/<task_id>')
 def task_status(task_id):
@@ -164,3 +135,29 @@ def fileContent():
             d['read'] = f.readline().rstrip()
             file_content.append(d)
     return file_content
+
+def stream_data(filename):
+    with open(filename,'r') as f:
+        for line in f:
+            yield line
+
+def save_data(filename):
+    with open('userUploads/'+filename, 'w') as nf:
+        for line in stream_data(filename):
+            nf.write(line)
+    return 'hi'
+
+def list_pods():
+	client.Configuration().host = "http://localhost:8001"
+	v1 = client.CoreV1Api()
+	pod_list = v1.list_namespaced_pod("default")
+
+	numPods = 0
+
+	for pod in pod_list.items:
+		if pod.status.phase == "Running":
+			numPods += 1
+	return numPods
+
+def run_caw(filename):
+    pass

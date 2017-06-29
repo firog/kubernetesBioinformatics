@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request, jsonify, c
 from flask_login import login_required, current_user
 from .. import db
 from ..models import User, Post, Task
-from app.tools.routes import task_update
+from app.tools.routes import task_update, list_pods
 from api_1_0.endpoints.task import TaskList
 from . import pages
 from .forms import ProfileForm, PostForm
@@ -13,14 +13,14 @@ from .forms import ProfileForm, PostForm
 def index():
 	post_list = Post.query.order_by(Post.date.desc()).all()
 	job_list = Task.query.all()
-	return render_template('pages/index.html', postsLength=len(post_list), jobLength=len(job_list))
+	numPods = list_pods()
+	return render_template('pages/index.html', postsLength=len(post_list), jobLength=len(job_list), numPods=numPods)
 
 @pages.route('/user/<username>')
 def user(username):
 	user = User.query.filter_by(username=username).first_or_404()
 	post_list = user.posts.order_by(Post.date.desc()).all()
 	return render_template('pages/user.html', user=user, posts=post_list)
-
 
 @pages.route('/profile', methods=['GET','POST'])
 @login_required

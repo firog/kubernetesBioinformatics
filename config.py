@@ -13,8 +13,7 @@ class Config:
 	PATH_TO_PEM = os.environ.get('PATH_TO_PEM') or 'default'
 	PROJECT_NAME = os.environ.get('PROJECT_NAME') or 'default'
 
-	# CELERY_BROKER_URL = 'amqp://localhost:5672/'
-	# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+	# K8S_API_TOKEN = os.environ.get('TOKEN')
 
 	CELERY_BROKER_URL = os.environ.get('RABBITMQ_SERVICE_SERVICE_HOST') or 'amqp://'
 	CELERY_RESULT_BACKEND = 'rpc://'

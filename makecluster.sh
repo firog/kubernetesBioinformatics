@@ -1,8 +1,9 @@
 #!/bin/bash
-read -p "Full path to service account key (credentials file created on the google cloud dashboard): " path_to_pem
+read -p "Full path to service account key (credentials file created on the google cloud dashboard): " -e path_to_pem
 if [ -f $path_to_pem ]
 then
-  read -p "Desired name of cluster: " clustername
+  read -p "Desired name of cluster (default mycluster): " clustername
+  clustername=${clustername:-mycluster}
   read -p "Zone to spawn cluster (default is europe-west1-b): " zone
   zone=${zone:-europe-west1-b}
   read -p "Number of nodes (default is 2): " num_nodes
@@ -20,5 +21,6 @@ else
   echo "Please enter existing path to service account key."
 fi
 
+echo "Removing docker volume and container"
 docker rm makecluster$clustername
 docker volume rm $volumename
