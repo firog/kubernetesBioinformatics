@@ -21,9 +21,22 @@ spec:
       containers:
         - name: myapp
           image: firog/test-app
+          resources:
+            requests:
+              memory: "1Gi"
+              # cpu: "1"
           ports:
             - name: http
               containerPort: 5000
+          # volumeMounts:
+          #   - name: myapp-persistent-deploy
+          #     mountPath: /work
         - name: kubectl
           image: firog/kubectl
           args: ["proxy","-p","8001"]
+      # volumes:
+      #   - name: myapp-persistent-deploy
+      #     gcePersistentDisk:
+      #       pdName: caw
+      #       fsType: ext4
+            # readOnly: true

@@ -18,7 +18,14 @@ class BlastForm(Form):
 
 class CawForm(Form):
     zipfile = FileField('Zip with FASTA or FASTQ')
+    data = StringField("Data to run on", default="/work/apps/pipeline_test/data/")
+    name = StringField("Name of job")
+    pdName = StringField("Name of disk", default="caw")
+    memory = StringField("Amount of memory (RAM to allocate) in Mi,Gi", default="5Gi")
+    cpu = StringField("Number of CPUs", default="2")
+    threads = StringField("Number of threads", default="2")
     submit = SubmitField('Submit.')
+
 
 class UploadForm(Form):
     filehandle = FileField('File to upload')

@@ -3,6 +3,7 @@ import os
 import requests
 import json
 import time
+import pykube
 from flask import render_template, current_app, request, redirect, url_for, flash, jsonify, Response, stream_with_context
 from werkzeug import secure_filename
 from kubernetes import client, config
@@ -159,5 +160,81 @@ def list_pods():
 			numPods += 1
 	return numPods
 
-def run_caw(filename):
-    pass
+def list_running_jobs():
+    client.Configuration().host="http://localhost:8001"
+    v1.client.BatchV1Api()
+    job_list = v1.list_namespaced_job("default")
+
+    return len(job_list)
+
+def list_finished_jobs():
+    client.Configuration().host="http://localhost:8001"
+    v1.client.CoreV1Api()
+    job_list = v1.list_namespaced_pod("default")
+
+    finishedJobs = 0
+
+    for job in job_list.items:
+        if job.status.phase == "Succeeded":
+            finishedJobs += 1
+
+    return finishedJobs
+
+def run_caw(data="/work/apps/pipeline_test/data/",name="cawcl",pdName="caw",memory="5Gi",cpu="2",threads="2"):
+    api = pykube.HTTPClient(pykube.KubeConfig.from_url("http://localhost:8001"))
+
+    obj = {
+      "apiVersion": "batch/v1",
+      "kind": "Job",
+      "metadata": {
+        "name": name
+      },
+      "spec": {
+        "template": {
+          "metadata": {
+            "name": "caw"
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "myapp-persistent-job",
+                "gcePersistentDisk": {
+                  "pdName": pdName,
+                  "fsType": "ext4"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "caw",
+                "image": "firog/ubuntujava",
+                "command": [
+                  "bash",
+                  "/work/apps/pipeline_test/flexible_location_pipeline.sh",
+                  "/work/apps/pipeline_test/scratch/",
+                  "/work/apps/",
+                  "/work/apps/pipeline_test/ref/",
+                  data,
+                  threads
+                ],
+                "resources": {
+                  "requests": {
+                    "memory": memory,
+                    "cpu": cpu
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "myapp-persistent-job",
+                    "mountPath": "/work"
+                  }
+                ]
+              }
+            ],
+            "restartPolicy": "Never"
+          }
+        }
+      }
+    }
+
+    pykube.Job(api, obj).create()
