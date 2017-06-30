@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: caw6wl30
+spec:
+  template:
+    metadata:
+      name: caw
+    spec:
+      volumes:
+        - name: myapp-persistent-job
+          gcePersistentDisk:
+            pdName: caw
+            fsType: ext4
+      containers:
+      - name: caw
+        image: firog/ubuntujava
+        command: ["bash", "/work/apps/pipeline_test/flexible_location_pipeline.sh","/work/apps/pipeline_test/scratch/","/work/apps/","/work/apps/pipeline_test/ref/","/work/apps/pipeline_test/data/","6"]
+        resources:
+          limits:
+            cpu: "6"
+            memory: "30Gi"
+          requests:
+            memory: "30Gi"
+            cpu: "6"
+        volumeMounts:
+          - name: myapp-persistent-job
+            mountPath: /work
+      restartPolicy: Never
