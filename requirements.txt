@@ -44,7 +44,7 @@ pykube==0.15.0
 pyparsing==2.1.10
 python-dateutil==2.6.0
 pytz==2016.10
-PyYAML==3.12
+PyYAML==5.4
 rauth==0.7.3
 redis==2.10.5
 requests==2.18.1
